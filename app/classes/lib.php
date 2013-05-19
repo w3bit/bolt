@@ -982,7 +982,12 @@ function getWhichEnd($from) {
 
     if (!empty($_SERVER['REQUEST_URI'])) {
         // Get the script's filename, but _without_ REQUEST_URI.
-        $scripturi = str_replace("#".dirname($_SERVER['SCRIPT_NAME']), '', "#".$_SERVER['REQUEST_URI']);
+        $scriptname=dirname($_SERVER['SCRIPT_NAME']);
+        // Replace backslash in windows
+        if (DIRECTORY_SEPARATOR=='\\'){
+            $scriptname=str_replace('\\','/',$scriptname);
+        }
+        $scripturi = str_replace("#".$scriptname, '', "#".$_SERVER['REQUEST_URI']);
         // make sure it starts with '/', like our mountpoint.
         if (empty($scripturi) || ($scripturi[0] != "/") ) {
             $scripturi = "/" . $scripturi;
